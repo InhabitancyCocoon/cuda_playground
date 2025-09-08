@@ -48,3 +48,28 @@ export PATH=$PATH:/usr/local/cuda/bin
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 ```
+
+- you can install the Nsight Visual Studio Code Edition extension.
+
+- debug macro
+
+```
+#define CUDA_CHECK(call) \
+{                         \
+    const cudaError_t error = call; \
+    if (error != cudaSuccess) { \
+        printf("Error: %s: %d, ", __FILE__, __LINE__); \
+        printf("code: %d, reason: %s\n", error, cudaGetErrorString(error)); \
+        exit(1); \
+    } \
+}
+```
+
+- header files that maybe useful
+
+```
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <cuda_device_runtime_api.h>
+#include <cuda_runtime_api.h>
+```
