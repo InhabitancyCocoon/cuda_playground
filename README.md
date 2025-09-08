@@ -2,7 +2,9 @@
 
 ### file structure
 
-ubuntu 22.04, I put the command line command in the top comment of each file.
+ubuntu 22.04, I put the command line command in the top comment of each file. In other words,
+CMake is rarely used...  
+When performance is not a concern, I will just use `nvcc -o main main.cu`.
 
 ```
 -- cute
