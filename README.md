@@ -78,3 +78,6 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 - check [understanding ptx blog](https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/) for more details
 
 - check [nvidia tensor core evolution](https://semianalysis.com/2025/06/23/nvidia-tensor-core-evolution-from-volta-to-blackwell/) for more details
+
+- cloud gpu (at least for autodl), is not happy with cuda kernel profiling tools such
+as ncu.
