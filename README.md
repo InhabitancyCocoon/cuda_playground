@@ -35,7 +35,6 @@ ubuntu 22.04, I put the command line command in the top comment of each file.
 }
 ```
 
-- check [understanding ptx blog](https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/) for more tails
 
 - setup nvcc
 
@@ -73,3 +72,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 #include <cuda_device_runtime_api.h>
 #include <cuda_runtime_api.h>
 ```
+
+### info
+
+- check [understanding ptx blog](https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/) for more details
+
+- check [nvidia tensor core evolution](https://semianalysis.com/2025/06/23/nvidia-tensor-core-evolution-from-volta-to-blackwell/) for more details
