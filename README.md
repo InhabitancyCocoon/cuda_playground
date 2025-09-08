@@ -28,7 +28,14 @@ ubuntu 22.04, I put the command line command in the top comment of each file.
     "C_Cpp.default.compilerPath": "/usr/bin/g++",
     "C_Cpp.default.systemIncludePath": [
         "/usr/local/cuda/include",
-        "/usr/local/cuda/lib64"
+        "/usr/local/cuda/lib64",
+        "/usr/include/c++/11",
+        "/usr/include/x86_64-linux-gnu/c++/11",
+        "/usr/include/c++/11/backward",
+        "/usr/lib/gcc/x86_64-linux-gnu/11/include",
+        "/usr/local/include",
+        "/usr/include/x86_64-linux-gnu",
+        "/usr/include"
     ],
     "C_Cpp.default.cppStandard": "c++17",
     "C_Cpp.default.cStandard": "c17"
