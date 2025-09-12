@@ -2,9 +2,7 @@
 
 ### file structure
 
-ubuntu 22.04, I put the command line command in the top comment of each file. In other words,
-CMake is rarely used...  
-When performance is not a concern, I will just use `nvcc -o main main.cu`.
+I will provide compile commands or CMakeLists.txt or Makefile.
 
 ```
 -- cute
@@ -90,3 +88,5 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 
 - cloud gpu (at least for autodl), is not happy with cuda kernel profiling tools such
 as ncu.
+
+- check [NVCC doc](https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#options-for-steering-gpu-code-generation) for compilation options

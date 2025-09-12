@@ -1,8 +1,10 @@
-#ifndef UTILS
-#define UTILS
+#pragma once
 
 #include <iostream>
+#include <assert.h>
 #include <cuda_bf16.h>
+#include <random>
+
 
 // ref link: https://github.com/tgautam03/tGeMM/
 
@@ -25,6 +27,10 @@
 
 // Initializing matrix with given value
 void init_mat(float* mat, int M, int N, float value);
-void init_mat(nv_bfloat16 mat, int M, int N, nv_bfloat16 value);
+void init_mat(nv_bfloat16* mat, int M, int N, nv_bfloat16 value);
+void naive_gt_matmul(nv_bfloat16* A, nv_bfloat16* B, float* C, int M, int N, int K);
 
-#endif
+void random_init_mat(float* mat, int M, int N, int MIN, int MAX);
+void random_init_mat(nv_bfloat16* mat, int M, int N, int MIN, int MAX);
+
+void assert_mat_close(float* actual, float* expected, int M, int N, float atol, float rtol);
