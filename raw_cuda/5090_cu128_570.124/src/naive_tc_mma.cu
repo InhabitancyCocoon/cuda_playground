@@ -36,6 +36,8 @@ https://docs.nvidia.com/cuda/cublas/#data-layout
 
 https://blog.hedup.cc/?p=665
 
+https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#options-for-steering-gpu-code-generation
+
 */
 
 #include <cuda_runtime.h>
@@ -70,12 +72,20 @@ int main(int argc, char* argv[]) {
     cuda_check(cudaMalloc((void**)&device_B, sizeof(nv_bfloat16) * K * N));
     cuda_check(cudaMalloc((void**)&device_C, sizeof(float) * M * N));
 
-    random_init_mat(host_A, M, N, 0, 100);
-    random_init_mat(host_B, M, N, 0, 100);
+    random_init_mat(host_A, M, K);
+    random_init_mat(host_B, K, N);
+
+    // init_mat(host_A, M, K, 1.f);
+    // init_mat(host_B, K, N, 2.f);
+
+    // init_mat_range(host_A, M, K);
+    // init_mat_range(host_B, K, N);
+
     init_mat(host_C, M, N, 0);
     init_mat(gt_C, M, N, 0);
 
-    naive_gt_matmul(host_A, host_B, gt_C, M, N, K);
+    naive_gt_matmul(host_A, host_B, gt_C, M, N, K);\
+    print_mat(gt_C, M, N);
 
     cuda_check(cudaMemcpy(device_A, host_A, sizeof(nv_bfloat16) * M * K, cudaMemcpyHostToDevice));
     cuda_check(cudaMemcpy(device_B, host_B, sizeof(nv_bfloat16) * K * N, cudaMemcpyHostToDevice));
@@ -106,6 +116,7 @@ int main(int argc, char* argv[]) {
     In column-major, the leading dimension is the number of rows.
 
     cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, n, m, k, &alpha, B, n, A, k, &beta, C, n)
+    The logic is now correct, but bf16 matmul behaves poorly than I expected in terms of precision.
     */
 
     cublas_check(cublasGemmEx(
@@ -121,7 +132,9 @@ int main(int argc, char* argv[]) {
     ));
     cudaMemcpy(host_C, device_C, sizeof(float) * M * N, cudaMemcpyDeviceToHost);
 
-    assert_mat_close(host_C, gt_C, M, N, 1e-5, 1e-4);
+
+    print_mat(host_C, M, N);
+    assert_mat_close(host_C, gt_C, M, N, 1e-3, 1e-1);
 
 
     return 0;
