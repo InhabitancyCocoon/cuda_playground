@@ -74,9 +74,12 @@ void random_init_mat(nv_bfloat16* mat, int M, int N) {
 
 
 // https://docs.pytorch.org/docs/stable/testing.html
-void assert_mat_close(float* actual, float* expected, int M, int N, float atol, float rtol) {
+void assert_mat_close(float* actual, float* expected, int M, int N, float atol, float rtol, const std::string& message) {
     int total_elements = M * N;
     int mismatch = 0;
+    if (message != "") {
+        std::cout << "Assertion of " << message << ".\n";
+    }
 
     for (int row = 0; row < M; ++row) {
         for (int col = 0; col < N; ++col) {
@@ -104,15 +107,19 @@ void assert_mat_close(float* actual, float* expected, int M, int N, float atol, 
 
 
 
-void print_mat(float* mat, int M, int N) {
-    if (M > 16 || N > 16) {
-        std::cout << "print_mat: M and N should be no greater than 16\n";
-        return;
+void print_mat(float* mat, int M, int N, const std::string& message) {
+    if (message != "") {
+        std::cout << message << "\n";
+    }
+    if (M > 8 || N > 8) {
+        std::cout << "print_mat: M and N should be no greater than 8, only display the sub matrix.\n";
+        M = 8;
+        N = 8;
     }
     std::cout << M << " x " << N << " matrix: \n";
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
-            std::cout << mat[i * N + j] << " ";
+            std::cout << std::fixed << std::setprecision(4) << mat[i * N + j] << " ";
         }
         std::cout << "\n";
     }
@@ -120,16 +127,58 @@ void print_mat(float* mat, int M, int N) {
 
 
 
-void print_mat(nv_bfloat16* mat, int M, int N) {
-    if (M > 16 || N > 16) {
-        std::cout << "print_mat: M and N should be no greater than 16\n";
-        return;
+void print_mat(nv_bfloat16* mat, int M, int N, const std::string& message) {
+    if (message != "") {
+        std::cout << message << "\n";
+    }
+    if (M > 8 || N > 8) {
+        std::cout << "print_mat: M and N should be no greater than 8, only display the sub matrix.\n";
+        M = 8;
+        N = 8;
     }
     std::cout << M << " x " << N << " matrix: \n";
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
-            std::cout << float(mat[i * N + j]) << " ";
+            std::cout << std::fixed << std::setprecision(4) << float(mat[i * N + j]) << " ";
         }
         std::cout << "\n";
     }
 }
+
+
+__global__ void _fill_device_matrix_fp32_kernel(float* mat, int num_elements, float value) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < num_elements) {
+        mat[idx] = value;
+    }
+}
+
+__global__ void _fill_device_matrix_bf16_kernel(nv_bfloat16* mat, int num_elements, float value) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < num_elements) {
+        mat[idx] = value;
+    }
+}
+
+// fill the device matrix with given value.
+void fill_device_matrix(float* mat, int M, int N, float value, const std::string& message) {
+    int num_elements = M * N;
+    int block_size = 256;
+    int grid_size = (num_elements + 256 - 1) / block_size;
+    _fill_device_matrix_fp32_kernel<<<grid_size,block_size>>>(mat, num_elements, value);
+    if (message != "") {
+        std::cout << message << ".\n";
+    }
+}
+
+// fill the device matrix with given value.
+void fill_device_matrix(nv_bfloat16* mat, int M, int N, float value, const std::string& message) {
+    int num_elements = M * N;
+    int block_size = 256;
+    int grid_size = (num_elements + 256 - 1) / block_size;
+    _fill_device_matrix_bf16_kernel<<<grid_size,block_size>>>(mat, num_elements, value);
+    if (message != "") {
+        std::cout << message << ".\n";
+    }
+}
+

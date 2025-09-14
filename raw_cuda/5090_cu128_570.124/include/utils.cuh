@@ -6,7 +6,8 @@
 #include <random>
 #include <cmath>
 #include <iomanip>
-#include <stdlib.h>  
+#include <stdlib.h> 
+#include <string.h>
 
 
 // ref link: https://github.com/tgautam03/tGeMM/
@@ -38,7 +39,12 @@ void naive_gt_matmul(nv_bfloat16* A, nv_bfloat16* B, float* C, int M, int N, int
 void random_init_mat(float* mat, int M, int N);
 void random_init_mat(nv_bfloat16* mat, int M, int N);
 
-void assert_mat_close(float* actual, float* expected, int M, int N, float atol, float rtol);
+void assert_mat_close(float* actual, float* expected, int M, int N, float atol, float rtol, const std::string& message = "");
 
-void print_mat(float* mat, int M, int N);
-void print_mat(nv_bfloat16* mat, int M, int N);
+void print_mat(float* mat, int M, int N, const std::string& message = "");
+void print_mat(nv_bfloat16* mat, int M, int N, const std::string& message = "");
+
+
+void fill_device_matrix(float* mat, int M, int N, float value, const std::string& message = "");
+void fill_device_matrix(nv_bfloat16* mat, int M, int N, float value, const std::string& message = "");
+
