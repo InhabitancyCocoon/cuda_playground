@@ -1,26 +1,37 @@
 CC = nvcc
 VERBOSE = --ptxas-options=-v
 LINK_CUBLAS = -lcublas
+SUPPRESS_UNUSED_WARNING = -diag-suppress 177
 
 # https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#device-c-dc
 DEVICE_COMPILE_FLAG = -dc
 
+
 # sm_75 is used as the default value for --gpu-architecture,
 # PTX is generated for compute_75 then assembled and optimized for sm_75.
+# But sm_75 belongs to Turing support, while the bfloat16 format is not
+# supported until Ampere, which includes compute_80, compute_86 and compute_87, compute_88 support.
+# So I need to give the virtual architecture feature explicitly, otherwise the compliation will fail.
+# RTX5090 corresponds to compute compability 12.0
+
+# https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#options-for-steering-gpu-code-generation
+# https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#virtual-architecture-feature-list
+# https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#gpu-feature-list
+ARCH = -arch=compute_120
 
 .PHONY: clean
 
 build/bf16_demo.out: src/bf16_demo.cu
-	$(CC) src/bf16_demo.cu -o build/bf16_demo.out
+	$(CC) $(ARCH) src/bf16_demo.cu -o build/bf16_demo.out
 
 
 # Utils
 build/utils.o: src/utils.cu
-	$(CC) $(DEVICE_COMPILE_FLAG) src/utils.cu -o build/utils.o
+	$(CC) $(DEVICE_COMPILE_FLAG) $(ARCH) src/utils.cu -o build/utils.o
 
 
 build/naive_tc_mma.out: src/naive_tc_mma.cu build/utils.o
-	$(CC) ${LINK_CUBLAS} build/utils.o src/naive_tc_mma.cu -o build/naive_tc_mma.out
+	$(CC) ${LINK_CUBLAS} $(ARCH) $(SUPPRESS_UNUSED_WARNING) build/utils.o src/naive_tc_mma.cu -o build/naive_tc_mma.out
 
 
 
