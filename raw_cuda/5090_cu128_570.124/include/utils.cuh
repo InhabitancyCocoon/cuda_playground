@@ -41,3 +41,4 @@ void random_init_mat(nv_bfloat16* mat, int M, int N);
 void assert_mat_close(float* actual, float* expected, int M, int N, float atol, float rtol);
 
 void print_mat(float* mat, int M, int N);
+void print_mat(nv_bfloat16* mat, int M, int N);

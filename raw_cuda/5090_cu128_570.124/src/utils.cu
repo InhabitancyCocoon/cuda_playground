@@ -117,3 +117,19 @@ void print_mat(float* mat, int M, int N) {
         std::cout << "\n";
     }
 }
+
+
+
+void print_mat(nv_bfloat16* mat, int M, int N) {
+    if (M > 16 || N > 16) {
+        std::cout << "print_mat: M and N should be no greater than 16\n";
+        return;
+    }
+    std::cout << M << " x " << N << " matrix: \n";
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < N; ++j) {
+            std::cout << float(mat[i * N + j]) << " ";
+        }
+        std::cout << "\n";
+    }
+}

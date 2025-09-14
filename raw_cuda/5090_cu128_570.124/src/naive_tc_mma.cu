@@ -50,7 +50,7 @@ https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#options-for-st
 #include <cublas_v2.h>
 
 constexpr int WMMA_M = 16, WMMA_N = 16, WMMA_K = 16;
-constexpr int M = 512, N = 128, K = 256;
+constexpr int M = 8, N = 8, K = 8;
 
 __global__ void mma_kernel() {
 
@@ -80,6 +80,9 @@ int main(int argc, char* argv[]) {
 
     // init_mat_range(host_A, M, K);
     // init_mat_range(host_B, K, N);
+
+    // print_mat(host_A, M, K);
+    // print_mat(host_B, K, N);
 
     init_mat(host_C, M, N, 0);
     init_mat(gt_C, M, N, 0);
@@ -134,6 +137,7 @@ int main(int argc, char* argv[]) {
 
 
     print_mat(host_C, M, N);
+    // cublas now works.
     assert_mat_close(host_C, gt_C, M, N, 1e-3, 1e-1);
 
 
