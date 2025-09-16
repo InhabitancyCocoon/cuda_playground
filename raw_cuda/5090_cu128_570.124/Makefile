@@ -21,12 +21,17 @@ ARCH = -arch=compute_120
 
 .PHONY: clean
 
+# Demos
+
 build/bf16_demo.out: src/bf16_demo.cu
 	$(CC) $(ARCH) src/bf16_demo.cu -o build/bf16_demo.out
 
 
 build/uva_demo.out: src/uva_demo.cu
 	$(CC) $(ARCH) src/uva_demo.cu -o build/uva_demo.out
+
+build/uvm_demo.out: src/uvm_demo.cu
+	$(CC) $(ARCH) src/uvm_demo.cu -o build/uvm_demo.out
 
 
 # Utils
