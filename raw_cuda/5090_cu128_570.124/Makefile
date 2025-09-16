@@ -25,6 +25,10 @@ build/bf16_demo.out: src/bf16_demo.cu
 	$(CC) $(ARCH) src/bf16_demo.cu -o build/bf16_demo.out
 
 
+build/uva_demo.out: src/uva_demo.cu
+	$(CC) $(ARCH) src/uva_demo.cu -o build/uva_demo.out
+
+
 # Utils
 build/utils.o: src/utils.cu
 	$(CC) $(DEVICE_COMPILE_FLAG) $(ARCH) src/utils.cu -o build/utils.o
