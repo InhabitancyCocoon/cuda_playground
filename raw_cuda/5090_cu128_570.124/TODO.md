@@ -1,2 +1,2 @@
-- [] wgmma  
-- [] tma, async memeory copy
+- [] wgmma
+- [] tma, async memory copy
