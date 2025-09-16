@@ -83,8 +83,8 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 - linux bash shell settings
 
 ```
-export PS1="\u@\h:\w> "
-export PS1="\u:\w> "
+export PS1="\u@\h:\W> " (\W only display current directory)
+export PS1="\u:\W> "
 
 ```
 
