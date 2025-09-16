@@ -8,7 +8,8 @@ https://nichijou.co/cudaRandom-UVA/
 
 https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#unified-virtual-address-space
 
-
+Pointers returned by cudaHostAlloc() can be used directly from within kernels running on UVA enabled devices.
+Data cache in L2 of target device.
 */
 
 #include <cuda_runtime.h>
