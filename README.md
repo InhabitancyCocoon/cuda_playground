@@ -80,6 +80,14 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 #include <cuda_runtime_api.h>
 ```
 
+- linux bash shell settings
+
+```
+export PS1="\u@\h:\w> "
+export PS1="\u:\w> "
+
+```
+
 ### info
 
 - check [understanding ptx blog](https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/) for more details
