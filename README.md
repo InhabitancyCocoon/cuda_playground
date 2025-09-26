@@ -5,15 +5,15 @@
 I will provide compile commands or CMakeLists.txt or Makefile.
 
 ```
--- cute
+-- cute_playground
     -- ${cutlass version}
         -- ${gpu}_${cuda version}_${driver version}
 
--- cutlass
+-- cutlass_playground
     -- ${cutlass version}
         -- ${gpu}_${cuda version}_${driver version}
 
--- raw cuda
+-- raw_cuda_playground
     -- ${gpu}_${cuda version}_${driver version}
 ```
 
